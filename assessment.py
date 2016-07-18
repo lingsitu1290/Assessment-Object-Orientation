@@ -4,7 +4,8 @@ Part 1: Discussion
 1. What are the three main design advantages that object orientation
    can provide? Explain each concept.
    1. Encapsulation: Allows for the data to be close to it's functionality. 
-   2. Abstraction: Hides the details of how the methods are used. 
+   2. Abstraction: Hides the complexity of the methods so the users doesn't need 
+   to understand the details in order to use it.  
    3. Polymorphism: Allows for the interchangeability of components. 
 
 2. What is a class?
@@ -39,31 +40,115 @@ Part 1: Discussion
 # Parts 2 through 5:
 # Create your classes and class methods
 
-class Liquid(object):
-    """ Create a class of Liquids. """
+class Student(object):
+    """ Created student class to store first name, last name, and address. """
+
+    def __init___(self, first_name, last_name, address):
+      """ Initialize first, last name, and address atrributes. """
+
+      self.first_name = first_name
+      self.last_name  = last_name 
+      self.address = address
 
 
-    def __init__(self, drinkable, flavor):
-        self.drinkable = drinkable
-        self.flavor = flavor
+class Question(object):
+    """ Created question class. """
 
-    def get_info(self, name):
-        self.name = name
-        return self.name
+    def __init___(self, question, correct_answer): 
+      """ Initialize question and answer attributes. """
+      
+      self.question = question
+      self.correct_answer = correct_answer
+
+    def ask_and_evaluate(self, answer):
+      """ Prints question to console and ask user for an answer. """
+
+      print self.question 
+      self.answer = raw_input(self.question)
+
+      if self.answer == self.correct_answer:
+        return True
+      return False
 
 
-class Coffee(Liquid):
-    """ Create a class of Coffee that inherits from Liquid. """
+class Exam(object):
+    """ Created Exam class. """
 
-    drinkable = True
+    def __init__(self, name):
+      """ Initialize name attribute and set questions to a list. """
 
-    def add_milk(self):
-        self.milk = True
-        return self.milk
+      self.name = name
+      self.questions = []
+
+    def add_question(self, question, correct_answer):
+      """ Method that takes question and correct_answer as a parameter. 
+
+      Makes a Question from parameters and append to exam's list of questions. 
+      """
+
+      new_question = Question(question, correct_answer)
+      self.questions.append(new_question)
+
+    def administer(self):
+      """ Method to administer the exam and return user's score. """
+
+      score = 0
+
+      for question in self.questions: 
+        if Question.ask_and_evaluate(question) == True:
+          score += 1 
+
+      return score
 
 
-latte = Coffee(True, 'Strawberry')
-print latte.flavor
-print latte.get_info('latte')
-print latte.drinkable
-print latte.add_milk()
+class Quiz(Exam):
+    """ Created Quiz class that inherits from Exam Class. """ 
+
+    def administer(self):
+      """ Method to adminster quiz where pass if over half questions are correct.
+      """
+
+      # Set passed to False 
+      passed_quiz = False 
+
+      # Run parent class's adminster method to determine student's score
+      student_score = super(Quiz, self).administer()
+
+      # Find the student's score in decimal by dividing student_score by number of questions
+      student_score_in_dec = (student_score / self.questions)
+
+      # if the student score is greater than 50%, then they pass 
+      if student_score_in_dec > 0.50: 
+        passed_quiz = True
+
+      return passed_quiz
+
+# Functions 
+def take_test(student, exam):
+    """ Administer the exam and assign student scores. """ 
+
+    student_score = Exam.administer()
+    student.score = student_score
+
+
+def example():
+    """ Creates an example. """
+
+    my_exam = Exam('exam')
+
+    my_exam.add_question('What is the first letter in the alphabet', 'a')
+    my_exam.add_question('What is the first number?','1')
+
+    sam = Student('Sam','Cool','555 California St.')
+
+    take_test(sam, my_exam)
+
+    return sam.score
+
+
+
+
+
+
+
+
