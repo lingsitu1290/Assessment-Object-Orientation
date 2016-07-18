@@ -3,7 +3,9 @@ Part 1: Discussion
 
 1. What are the three main design advantages that object orientation
    can provide? Explain each concept.
-   Encapsulation, abstraction, and polymorphism. 
+   1. Encapsulation: Allows for the data to be close to it's functionality. 
+   2. Abstraction: Hides the details of how the methods are used. 
+   3. Polymorphism: Allows for the interchangeability of components. 
 
 2. What is a class?
    Class is a type of thing. 
@@ -23,8 +25,9 @@ Part 1: Discussion
     or every instance of that class). An instance attribute is a characteristic
     that is specific to that instance of the class.
 
-    For example, in a Dog Class. A class attribute that the species of this class 
-    is set is Dog since the species of this class is Dog fo all instances. 
+    For example, in the Dog Class. An example of a class attribute is that 
+    that the species of this class is set is dog since the species of 
+    this class is "dog" fo all instances. 
 
     An instance attribute in our Dog Class can be name. For each dog, each will have 
     a different name.
@@ -37,6 +40,8 @@ Part 1: Discussion
 # Create your classes and class methods
 
 class Liquid(object):
+    """ Create a class of Liquids. """
+
 
     def __init__(self, drinkable, flavor):
         self.drinkable = drinkable
@@ -48,6 +53,8 @@ class Liquid(object):
 
 
 class Coffee(Liquid):
+    """ Create a class of Coffee that inherits from Liquid. """
+
     drinkable = True
 
     def add_milk(self):
