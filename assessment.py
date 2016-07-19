@@ -41,9 +41,9 @@ Part 1: Discussion
 # Create your classes and class methods
 
 class Student(object):
-    """ Created student class to store first name, last name, and address. """
+    """ Defined Student object.  """
 
-    def __init___(self, first_name, last_name, address):
+    def __init__(self, first_name, last_name, address):
       """ Initialize first, last name, and address atrributes. """
 
       self.first_name = first_name
@@ -54,7 +54,7 @@ class Student(object):
 class Question(object):
     """ Created question class. """
 
-    def __init___(self, question, correct_answer): 
+    def __init__(self, question, correct_answer): 
       """ Initialize question and answer attributes. """
       
       self.question = question
@@ -63,12 +63,13 @@ class Question(object):
     def ask_and_evaluate(self, answer):
       """ Prints question to console and ask user for an answer. """
 
-      print self.question 
-      self.answer = raw_input(self.question)
+      got_answer = False
 
-      if self.answer == self.correct_answer:
-        return True
-      return False
+      user_answer = raw_input(self.question)
+
+      if user_answer.lower() == self.correct_answer:
+        got_answer = True
+      return got_answer
 
 
 class Exam(object):
@@ -93,9 +94,10 @@ class Exam(object):
       """ Method to administer the exam and return user's score. """
 
       score = 0
-
+      question_num = 0
       for question in self.questions: 
-        if Question.ask_and_evaluate(question) == True:
+        question_num += 1
+        if question.ask_and_evaluate(question) == True:
           score += 1 
 
       return score
@@ -114,11 +116,8 @@ class Quiz(Exam):
       # Run parent class's adminster method to determine student's score
       student_score = super(Quiz, self).administer()
 
-      # Find the student's score in decimal by dividing student_score by number of questions
-      student_score_in_dec = (student_score / self.questions)
-
-      # if the student score is greater than 50%, then they pass 
-      if student_score_in_dec > 0.50: 
+      passing_num = len(self.questions)/ 2
+      if student_score  > passing_num: 
         passed_quiz = True
 
       return passed_quiz
@@ -127,16 +126,16 @@ class Quiz(Exam):
 def take_test(student, exam):
     """ Administer the exam and assign student scores. """ 
 
-    student_score = Exam.administer()
+    student_score = exam.administer()
     student.score = student_score
 
 
-def example():
+def example_exam():
     """ Creates an example. """
 
     my_exam = Exam('exam')
 
-    my_exam.add_question('What is the first letter in the alphabet', 'a')
+    my_exam.add_question('What is the first letter in the alphabet?', 'a')
     my_exam.add_question('What is the first number?','1')
 
     sam = Student('Sam','Cool','555 California St.')
@@ -145,6 +144,23 @@ def example():
 
     return sam.score
 
+
+def example_quiz():
+    """ Make example quiz. """
+
+    my_quiz = Quiz('quiz')
+
+    my_quiz.add_question('What is the first letter in the alphabet?','a')
+    my_quiz.add_question('what is the first first number?','1')
+
+    sam = Student('Sam','Cool','555 California St.')
+
+    take_test(sam, my_quiz)
+
+    return sam.score
+
+print example_exam()
+print example_quiz()
 
 
 
